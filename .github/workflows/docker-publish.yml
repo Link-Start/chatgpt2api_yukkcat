@@ -28,6 +28,8 @@ jobs:
           enable-cache: true
 
       - name: Verify backend update contract
+        env:
+          DATABASE_URL: sqlite:///${{ runner.temp }}/chatgpt2api-test.db
         run: |
           uv sync --frozen
           uv run pytest -q tests/test_update_status_contract.py
