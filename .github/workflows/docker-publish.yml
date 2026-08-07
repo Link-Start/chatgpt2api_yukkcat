@@ -29,6 +29,7 @@ jobs:
 
       - name: Verify backend update contract
         env:
+          CHATGPT2API_AUTH_KEY: ci-test-auth-key
           DATABASE_URL: sqlite:///${{ runner.temp }}/chatgpt2api-test.db
         run: |
           uv sync --frozen
