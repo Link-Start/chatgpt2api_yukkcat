@@ -99,10 +99,20 @@ jobs:
 
           tar -C release -czf release/chatgpt2api-app.tar.gz chatgpt2api-app
           (cd release && sha256sum chatgpt2api-app.tar.gz > checksums.txt)
+          awk -v version="${version}" '
+            /^## / {
+              if (capture) exit
+              capture = index($0, "## " version " - ") == 1
+              next
+            }
+            capture { print }
+          ' CHANGELOG.md > release/release-notes.md
+          test -s release/release-notes.md
 
       - name: Upload online update bundle
         uses: softprops/action-gh-release@v2
         with:
+          body_path: release/release-notes.md
           files: |
             release/chatgpt2api-app.tar.gz
             release/checksums.txt
