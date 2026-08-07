@@ -43,10 +43,11 @@ jobs:
           cache-dependency-path: web-vue/package-lock.json
 
       - name: Verify console update contract and build
+        working-directory: web-vue
         run: |
-          npm --prefix web-vue ci
-          node web-vue/tests/release-ui-runtime.mjs
-          npm --prefix web-vue run build
+          npm ci
+          node tests/release-ui-runtime.mjs
+          npm run build
 
   release-bundle:
     if: startsWith(github.ref, 'refs/tags/v')
